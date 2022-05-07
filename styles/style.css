@@ -6,3 +6,13 @@
     padding: 0;
     color: blue;
 }
+
+#main {
+
+    background-color: rebeccapurple;
+}
+
+.card {
+
+    width: 18rem;
+}

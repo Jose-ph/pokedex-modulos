@@ -1,7 +1,17 @@
-import { getAllPokemonsFromApi } from "./services/services.js";
+import { getAllPokemonsFromApi, getPokemonById } from "./services/services.js";
 
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1126";
+import { createPokemonsCards } from "./ui/ui.js";
 
-getAllPokemonsFromApi(BASE_URL).then((response) =>
-  console.log(response.results)
-);
+const BASE_URL = "https://pokeapi.co/api/v2/pokemon/";
+
+getAllPokemonsFromApi(BASE_URL).then((response) => {
+  console.log(response.results);
+
+  let pokemons = response.results;
+
+  pokemons.forEach((pokemon) => {
+    getPokemonById(pokemon.name).then((response) => {
+      createPokemonsCards(response);
+    });
+  });
+});
