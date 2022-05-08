@@ -40,3 +40,55 @@ export function createPokemonsCards(pokemon) {
 
   pokemonCardsContainer.appendChild(newCard);
 }
+
+export function createPagination(numberOfPages, callBackUpdate) {
+  console.log(numberOfPages);
+  let paginationContainer = document.querySelector(".pagination");
+  let offset = 0;
+
+  /* let previousPage = document.createElement("li");
+  previousPage.innerHTML = `
+  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  
+  `; */
+
+  /*  paginationContainer.appendChild(previousPage);
+   */
+  for (let i = 0; i < numberOfPages; i++) {
+    let newPage = document.createElement("li");
+    /*  newPage.innerHTML = `
+    <li data-offset="${offset}" id = "${offset}" class="page-item"><a class="page-link" href="#">${i}</a></li>
+    `; */
+    newPage.setAttribute("data-offset", `${offset}`);
+    newPage.setAttribute("class", "page-item");
+
+    let newPageLink = document.createElement("a");
+    newPageLink.setAttribute("class", "page-link");
+    newPageLink.setAttribute("href", "#");
+    newPageLink.textContent = `${i}`;
+
+    newPage.appendChild(newPageLink);
+    paginationContainer.appendChild(newPage);
+
+    offset = offset + 20;
+
+    newPage.onclick = function () {
+      let offset = this.dataset.offset;
+
+      return console.log(callBackUpdate(offset));
+    };
+    /* 
+    console.log(offset); */
+  }
+}
+
+export function handlePagination(paginationCallBack) {
+  let pages = document.querySelectorAll(".page-item");
+
+  pages.forEach((page) => {
+    page.onclick = function () {
+      let offset = this.dataset.offset;
+      callBackUpdate(offset);
+    };
+  });
+}
