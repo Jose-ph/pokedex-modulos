@@ -3,7 +3,7 @@ import { getPokemonsFromApi, getPokemonById } from "./services/services.js";
 import {
   createPokemonsCards,
   createPagination,
-  handlePagination,
+  clearPreviousElements,
 } from "./ui/ui.js";
 
 /* const BASE_URL = "https://pokeapi.co/api/v2/pokemon/"; */
@@ -12,7 +12,7 @@ let totalPokemons;
 let initialOffset = 20;
 
 function initialize(offset) {
-  deletePreviousElements();
+  clearPreviousElements();
   getPokemonsFromApi(offset).then((response) => {
     console.log(response.results);
     totalPokemons = response.count;
@@ -30,12 +30,3 @@ function initialize(offset) {
 }
 
 initialize();
-
-function deletePreviousElements() {
-  let pagination = document.querySelector(".pagination");
-
-  let pokemonCards = document.querySelector("#pokemon-cards");
-  // DID NOT REMOVE ELEMENTS BECAUSE THEN I CAN'T CREATE NEW ONES
-  pagination.innerHTML = "";
-  pokemonCards.innerHTML = "";
-}

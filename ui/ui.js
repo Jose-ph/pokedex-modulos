@@ -82,13 +82,11 @@ export function createPagination(numberOfPages, callBackUpdate) {
   }
 }
 
-export function handlePagination(paginationCallBack) {
-  let pages = document.querySelectorAll(".page-item");
+export function clearPreviousElements() {
+  let pagination = document.querySelector(".pagination");
 
-  pages.forEach((page) => {
-    page.onclick = function () {
-      let offset = this.dataset.offset;
-      callBackUpdate(offset);
-    };
-  });
+  let pokemonCards = document.querySelector("#pokemon-cards");
+  // DID NOT REMOVE ELEMENTS BECAUSE THEN I CAN'T CREATE NEW ONES
+  pagination.innerHTML = "";
+  pokemonCards.innerHTML = "";
 }
