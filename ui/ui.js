@@ -1,4 +1,4 @@
-export function createPokemonsCards(pokemon) {
+export function createPokemonCard(pokemon) {
   let pokemonCardsContainer = document.querySelector("#pokemon-cards");
 
   let newCard = document.createElement("div");
@@ -75,10 +75,8 @@ export function createPagination(numberOfPages, callBackUpdate) {
     newPage.onclick = function () {
       let offset = this.dataset.offset;
 
-      return console.log(callBackUpdate(offset));
+      callBackUpdate(offset);
     };
-    /* 
-    console.log(offset); */
   }
 }
 
