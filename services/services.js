@@ -12,7 +12,6 @@ export function getPokemonById(id) {
   );
 }
  */
-
 /*CAMBIO A ASYNC AWAIT  */
 
 export async function getPokemonsFromApi(offset = 0) {

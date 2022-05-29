@@ -7,7 +7,7 @@ import {
 } from "./ui/ui.js";
 
 /* const BASE_URL = "https://pokeapi.co/api/v2/pokemon/"; */
-
+/* 
 function initialize(offset) {
   let pages;
   let totalPokemons;
@@ -28,6 +28,28 @@ function initialize(offset) {
       });
     });
   });
+} */
+
+/* Agrega ASYNC/AWAIT */
+
+async function initialize(offset) {
+  let pages;
+  let totalPokemons;
+  let initialOffset = 20; //change to pokemonsPerPage
+
+  clearPreviousElements();
+  let pokemonsData = await getPokemonsFromApi(offset);
+  console.log(pokemonsData.results);
+  totalPokemons = pokemonsData.count;
+
+  let pokemons = pokemonsData.results;
+  pages = Math.ceil(totalPokemons / initialOffset);
+  createPagination(pages, initialize);
+
+  for (let i = 0; i < pokemons.length; i++) {
+    let pokemonById = await getPokemonById(pokemons[i].name);
+    createPokemonCard(pokemonById);
+  }
 }
 
 initialize();
