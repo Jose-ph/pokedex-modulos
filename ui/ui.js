@@ -1,4 +1,4 @@
-export function createPokemonCard(pokemon) {
+export function createPokemonCard(pokemon, callBackDetail) {
   let pokemonCardsContainer = document.querySelector("#pokemon-cards");
 
   let newCard = document.createElement("div");
@@ -32,17 +32,28 @@ export function createPokemonCard(pokemon) {
 
   newCardBody.appendChild(newCardParagraph);
 
-  let newCardAnchor = document.createElement("a");
+  /* let newCardAnchor = document.createElement("a");
   newCardAnchor.setAttribute("href", "#");
-  newCardAnchor.setAttribute("class", "btn btn-primary");
+  newCardAnchor.setAttribute("class", "btn btn-primary modal-test");
   newCardAnchor.textContent = "Do something";
-  newCardBody.appendChild(newCardAnchor);
+  newCardBody.appendChild(newCardAnchor); */
+
+  let newCardButton = document.createElement("button");
+  newCardButton.setAttribute("data-bs-toggle", "modal");
+  newCardButton.setAttribute("data-bs-target", "#exampleModal");
+  newCardButton.setAttribute("class", "btn btn-primary  modal-test");
+  newCardButton.textContent = "See Details";
+  newCardBody.appendChild(newCardButton);
+
+  /* newCardButton.onclick = callBackDetail; */
+  newCardButton.onclick = () => {
+    callBackDetail(pokemon);
+  };
 
   pokemonCardsContainer.appendChild(newCard);
 }
 
 export function createPagination(numberOfPages, callBackUpdate) {
-  console.log(numberOfPages);
   let paginationContainer = document.querySelector(".pagination");
   let offset = 0;
 
@@ -87,4 +98,48 @@ export function clearPreviousElements() {
   // DID NOT REMOVE ELEMENTS BECAUSE THEN I CAN'T CREATE NEW ONES
   pagination.innerHTML = "";
   pokemonCards.innerHTML = "";
+}
+
+export function setDetailModal(pokemonData) {
+  let modal = document.querySelector("#exampleModal");
+
+  let modalTitle = document.querySelector(".modal-title");
+  modalTitle.textContent = `${pokemonData.name}`;
+
+  let modalBody = document.querySelector(".modal-body");
+  modalBody.textContent = "";
+
+  pokemonData.abilities.forEach((ability) => {
+    let newAbility = document.createElement("p");
+    newAbility.textContent = `Ability: ${ability.ability.name}`;
+    modalBody.appendChild(newAbility);
+  });
+
+  let pokemonExperience = document.createElement("p");
+
+  pokemonExperience.textContent = `Experiencie: ${pokemonData["base_experience"]}`;
+  modalBody.appendChild(pokemonExperience);
+
+  pokemonData.stats.forEach((stat) => {
+    let pokemonStats = document.createElement("p");
+
+    pokemonStats.textContent = `${stat["stat"].name}: ${stat["base_stat"]}`;
+    modalBody.appendChild(pokemonStats);
+  });
+
+  /*  let pokemonFront = document.createElement("img");
+
+  pokemonFront.setAttribute("src", `${pokemonData.sprites["front_default"]}`);
+  pokemonFront.style.width = "280px";
+  pokemonFront.style.height = "280px";
+
+  modalBody.appendChild(pokemonFront); */
+
+  let pokemonBack = document.createElement("img");
+
+  pokemonBack.setAttribute("src", `${pokemonData.sprites["back_default"]}`);
+  pokemonBack.style.width = "280px";
+  pokemonBack.style.height = "280px";
+
+  modalBody.appendChild(pokemonBack);
 }
