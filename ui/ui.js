@@ -109,6 +109,30 @@ export function setDetailModal(pokemonData) {
   let modalBody = document.querySelector(".modal-body");
   modalBody.textContent = "";
 
+  modalBody.innerHTML = `
+  
+  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="${pokemonData.sprites["front_default"]}" class="d-block w-100" alt="${pokemonData.name}">
+    </div>
+    <div class="carousel-item">
+      <img src="${pokemonData.sprites["back_default"]}" class="d-block w-100" alt="...">
+    </div>
+   
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+  
+  `;
+
   pokemonData.abilities.forEach((ability) => {
     let newAbility = document.createElement("p");
     newAbility.textContent = `Ability: ${ability.ability.name}`;
@@ -134,12 +158,12 @@ export function setDetailModal(pokemonData) {
   pokemonFront.style.height = "280px";
 
   modalBody.appendChild(pokemonFront); */
-
+  /* 
   let pokemonBack = document.createElement("img");
 
   pokemonBack.setAttribute("src", `${pokemonData.sprites["back_default"]}`);
   pokemonBack.style.width = "280px";
-  pokemonBack.style.height = "280px";
+  pokemonBack.style.height = "280px"; */
 
-  modalBody.appendChild(pokemonBack);
+  /* modalBody.appendChild(pokemonBack); */
 }
