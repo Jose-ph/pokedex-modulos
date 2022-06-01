@@ -1,4 +1,9 @@
-import { getPokemonsFromApi, getPokemonById } from "./services/services.js";
+import {
+  getPokemonsFromApi,
+  getPokemonByIdFromApi,
+  savePokemonsToLocalStorage,
+  getPokemonsFromLocalStorage,
+} from "./services/services.js";
 
 import {
   createPokemonCard,
@@ -33,7 +38,7 @@ import {
 
 /* Agrega ASYNC/AWAIT */
 
-async function initialize(offset) {
+async function initialize(offset = 0) {
   let pages;
   let totalPokemons;
   let initialOffset = 20; //change to pokemonsPerPage
@@ -44,14 +49,19 @@ async function initialize(offset) {
   totalPokemons = pokemonsData.count;
 
   let pokemons = pokemonsData.results;
+
+  savePokemonsToLocalStorage(pokemons, offset);
+
   console.log(pokemons);
   pages = Math.ceil(totalPokemons / initialOffset);
   createPagination(pages, initialize);
 
   for (let i = 0; i < pokemons.length; i++) {
-    let pokemonById = await getPokemonById(pokemons[i].name);
+    let pokemonById = await getPokemonByIdFromApi(pokemons[i].name);
     createPokemonCard(pokemonById, setDetailModal);
   }
+
+  console.log(getPokemonsFromLocalStorage(offset));
 }
 
 initialize();
