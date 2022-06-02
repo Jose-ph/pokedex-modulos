@@ -1,9 +1,4 @@
-import {
-  getPokemonsFromApi,
-  getPokemonByIdFromApi,
-  savePokemonsToLocalStorage,
-  getPokemonsFromLocalStorage,
-} from "./services/services.js";
+import { getPokemonByIdFromApi, getPokemons } from "./services/services.js";
 
 import {
   createPokemonCard,
@@ -14,45 +9,20 @@ import {
 
 /* const BASE_URL = "https://pokeapi.co/api/v2/pokemon/"; */
 
-/* function initialize(offset) {
-  let pages;
-  let totalPokemons;
-  let initialOffset = 20; //change to pokemonsPerPage
-  clearPreviousElements();
-  getPokemonsFromApi(offset).then((response) => {
-    console.log(response.results);
-    totalPokemons = response.count;
-
-    let pokemons = response.results;
-    pages = Math.ceil(totalPokemons / initialOffset);
-    createPagination(pages, initialize);
-
-    pokemons.forEach((pokemon) => {
-      getPokemonById(pokemon.name).then((response) => {
-        console.log(response);
-        createPokemonCard(response);
-      });
-    });
-  });
-} */
-
-/* Agrega ASYNC/AWAIT */
-
 async function initialize(offset = 0) {
   let pages;
   let totalPokemons;
   let initialOffset = 20; //change to pokemonsPerPage
 
   clearPreviousElements();
-  let pokemonsData = await getPokemonsFromApi(offset);
+
+  let pokemonsData = await getPokemons(offset);
 
   totalPokemons = pokemonsData.count;
 
   let pokemons = pokemonsData.results;
 
-  savePokemonsToLocalStorage(pokemons, offset);
-
-  console.log(pokemons);
+  console.log(pokemonsData);
   pages = Math.ceil(totalPokemons / initialOffset);
   createPagination(pages, initialize);
 
@@ -60,8 +30,6 @@ async function initialize(offset = 0) {
     let pokemonById = await getPokemonByIdFromApi(pokemons[i].name);
     createPokemonCard(pokemonById, setDetailModal);
   }
-
-  console.log(getPokemonsFromLocalStorage(offset));
 }
 
 initialize();
