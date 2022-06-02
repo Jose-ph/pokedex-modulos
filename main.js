@@ -5,6 +5,7 @@ import {
   createPagination,
   clearPreviousElements,
   setDetailModal,
+  createPokemonsCards,
 } from "./ui/ui.js";
 
 /* const BASE_URL = "https://pokeapi.co/api/v2/pokemon/"; */
@@ -26,10 +27,12 @@ async function initialize(offset = 0) {
   pages = Math.ceil(totalPokemons / initialOffset);
   createPagination(pages, initialize);
 
-  for (let i = 0; i < pokemons.length; i++) {
-    let pokemonById = await getPokemonByIdFromApi(pokemons[i].name);
+  /* Is this a legal use of async ? */
+  pokemons.forEach(async (pokemon) => {
+    let pokemonById = await getPokemonByIdFromApi(pokemon.name);
+    console.log(pokemonById);
     createPokemonCard(pokemonById, setDetailModal);
-  }
+  });
 }
 
 initialize();

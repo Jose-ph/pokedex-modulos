@@ -18,7 +18,6 @@ export async function getPokemons(offset) {
   try {
     return getPokemonsFromLocalStorage(offset);
   } catch (e) {
-    console.log("pasé por el catch");
     let pokemonsFromApi = await getPokemonsFromApi(offset);
     savePokemonsToLocalStorage(pokemonsFromApi, offset);
 
@@ -35,8 +34,6 @@ function savePokemonsToLocalStorage(pokemons, offset) {
 
 function getPokemonsFromLocalStorage(offset) {
   let key = offset;
-
-  console.log("este es el offset", offset);
 
   let pokemons = JSON.parse(localStorage.getItem(key));
 
