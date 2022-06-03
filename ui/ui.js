@@ -224,3 +224,9 @@ export function createPokemonsCards(pokemons, callBackDetail) {
     pokemonCardsContainer.appendChild(newCard);
   });
 }
+
+export function clearBoard() {
+  let board = document.querySelector("#pokemon-cards");
+
+  board.innerHTML = "";
+}
