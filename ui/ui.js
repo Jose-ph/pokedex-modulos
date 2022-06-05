@@ -32,12 +32,6 @@ export function createPokemonCard(pokemon, callBackDetail) {
 
   newCardBody.appendChild(newCardParagraph);
 
-  /* let newCardAnchor = document.createElement("a");
-  newCardAnchor.setAttribute("href", "#");
-  newCardAnchor.setAttribute("class", "btn btn-primary modal-test");
-  newCardAnchor.textContent = "Do something";
-  newCardBody.appendChild(newCardAnchor); */
-
   let newCardButton = document.createElement("button");
   newCardButton.setAttribute("data-bs-toggle", "modal");
   newCardButton.setAttribute("data-bs-target", "#exampleModal");
@@ -45,7 +39,6 @@ export function createPokemonCard(pokemon, callBackDetail) {
   newCardButton.textContent = "See Details";
   newCardBody.appendChild(newCardButton);
 
-  /* newCardButton.onclick = callBackDetail; */
   newCardButton.onclick = () => {
     callBackDetail(pokemon);
   };
@@ -57,19 +50,9 @@ export function createPagination(numberOfPages, callBackUpdate) {
   let paginationContainer = document.querySelector(".pagination");
   let offset = 0;
 
-  /* let previousPage = document.createElement("li");
-  previousPage.innerHTML = `
-  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-  
-  `; */
-
-  /*  paginationContainer.appendChild(previousPage);
-   */
   for (let i = 0; i < numberOfPages; i++) {
     let newPage = document.createElement("li");
-    /*  newPage.innerHTML = `
-    <li data-offset="${offset}" id = "${offset}" class="page-item"><a class="page-link" href="#">${i}</a></li>
-    `; */
+
     newPage.setAttribute("data-offset", `${offset}`);
     newPage.setAttribute("class", "page-item");
 
@@ -95,7 +78,7 @@ export function clearPreviousElements() {
   let pagination = document.querySelector(".pagination");
 
   let pokemonCards = document.querySelector("#pokemon-cards");
-  // DID NOT REMOVE ELEMENTS BECAUSE THEN I CAN'T CREATE NEW ONES
+
   pagination.innerHTML = "";
   pokemonCards.innerHTML = "";
 }
@@ -150,22 +133,6 @@ export function setDetailModal(pokemonData) {
     pokemonStats.textContent = `${stat["stat"].name}: ${stat["base_stat"]}`;
     modalBody.appendChild(pokemonStats);
   });
-
-  /*  let pokemonFront = document.createElement("img");
-
-  pokemonFront.setAttribute("src", `${pokemonData.sprites["front_default"]}`);
-  pokemonFront.style.width = "280px";
-  pokemonFront.style.height = "280px";
-
-  modalBody.appendChild(pokemonFront); */
-  /* 
-  let pokemonBack = document.createElement("img");
-
-  pokemonBack.setAttribute("src", `${pokemonData.sprites["back_default"]}`);
-  pokemonBack.style.width = "280px";
-  pokemonBack.style.height = "280px"; */
-
-  /* modalBody.appendChild(pokemonBack); */
 }
 
 export function createPokemonsCards(pokemons, callBackDetail) {
@@ -203,12 +170,6 @@ export function createPokemonsCards(pokemons, callBackDetail) {
 
     newCardBody.appendChild(newCardParagraph);
 
-    /* let newCardAnchor = document.createElement("a");
-    newCardAnchor.setAttribute("href", "#");
-    newCardAnchor.setAttribute("class", "btn btn-primary modal-test");
-    newCardAnchor.textContent = "Do something";
-    newCardBody.appendChild(newCardAnchor); */
-
     let newCardButton = document.createElement("button");
     newCardButton.setAttribute("data-bs-toggle", "modal");
     newCardButton.setAttribute("data-bs-target", "#exampleModal");
@@ -225,8 +186,12 @@ export function createPokemonsCards(pokemons, callBackDetail) {
   });
 }
 
-export function clearBoard() {
+export function clearCards() {
   let board = document.querySelector("#pokemon-cards");
 
-  board.innerHTML = "";
+  let cards = document.querySelectorAll(".card");
+
+  cards.forEach((card) => {
+    card.remove();
+  });
 }
