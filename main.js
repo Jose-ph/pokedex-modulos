@@ -1,4 +1,8 @@
-import { getPokemonByIdFromApi, getPokemons } from "./services/services.js";
+import {
+  getPokemons,
+  getPokemonById,
+  getPokemonByIdFromApi,
+} from "./services/services.js";
 
 import {
   createPokemonCard,
@@ -38,15 +42,15 @@ async function initialize(offset = 0) {
 async function updatePokemonsCards(offset) {
   console.log("update");
 
-  clearCards();
-
   let pokemonsData = await getPokemons(offset);
   let pokemons = pokemonsData.results;
 
+  clearCards();
+
   /* Is this a legal use of async ? */
   pokemons.forEach(async (pokemon) => {
+    /*  let pokemonById = await getPokemonById(pokemon.name); */
     let pokemonById = await getPokemonByIdFromApi(pokemon.name);
-
     createPokemonCard(pokemonById, setDetailModal);
   });
 }

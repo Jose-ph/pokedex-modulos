@@ -41,6 +41,28 @@ function getPokemonsFromLocalStorage(offset) {
     throw new Error("No pokemons found");
   }
 
-  console.log("estos son los pokemones", pokemons);
   return pokemons;
+}
+
+export async function getPokemonById(id) {
+  try {
+    return getPokemonsFromLocalStorageById(id);
+  } catch (e) {
+    let pokemonByIdFromApi = await getPokemonByIdFromApi(id);
+    savePokemonsToLocalStorage(pokemonByIdFromApi, id);
+
+    return pokemonByIdFromApi;
+  }
+}
+
+function getPokemonsFromLocalStorageById(id) {
+  let key = id;
+
+  let pokemon = JSON.parse(localStorage.getItem(key));
+
+  if (pokemon === null) {
+    throw new Error("No pokemon found");
+  }
+
+  return pokemon;
 }
