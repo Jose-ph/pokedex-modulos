@@ -39,8 +39,9 @@ async function initialize(offset = 0) {
   });
 }
 
-async function updatePokemonsCards(offset) {
+async function updatePokemonsCards(offset, e) {
   console.log("update");
+  e.preventDefault();
 
   let pokemonsData = await getPokemons(offset);
   let pokemons = pokemonsData.results;
@@ -56,3 +57,7 @@ async function updatePokemonsCards(offset) {
 }
 
 initialize();
+
+/*CHANGE THE ID REQUEST
+ONLY REQUEST POKEMON BY ID ON SEE DETAILS BUTTON CLICK
+*/

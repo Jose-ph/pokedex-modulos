@@ -66,10 +66,10 @@ export function createPagination(numberOfPages, callBackUpdate) {
 
     offset = offset + 20;
 
-    newPage.onclick = function () {
+    newPage.onclick = function (e) {
       let offset = this.dataset.offset;
 
-      callBackUpdate(offset);
+      callBackUpdate(offset, e);
     };
   }
 }
@@ -187,8 +187,6 @@ export function createPokemonsCards(pokemons, callBackDetail) {
 }
 
 export function clearCards() {
-  let board = document.querySelector("#pokemon-cards");
-
   let cards = document.querySelectorAll(".card");
 
   cards.forEach((card) => {
