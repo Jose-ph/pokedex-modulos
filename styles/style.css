@@ -21,3 +21,10 @@
 .carousel-control-prev /*, .carousel-indicators */ {
     filter: invert(100%);
 }
+
+
+.card h5 {
+
+    text-transform: capitalize;
+    color: black;
+}

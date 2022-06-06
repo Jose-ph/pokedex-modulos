@@ -29,14 +29,19 @@ async function initialize(offset = 0) {
 
   pages = Math.ceil(totalPokemons / pokemonsPerPage);
 
-  createPagination(pages, updatePokemonsCards);
+  /* createPagination(pages, updatePokemonsCards); */
+  createPagination(pages, initialize);
+
+  console.log(pokemons);
+
+  createCardFake(pokemons);
 
   /* Is this a legal use of async ? */
-  pokemons.forEach(async (pokemon) => {
+  /*  pokemons.forEach(async (pokemon) => {
     let pokemonById = await getPokemonByIdFromApi(pokemon.name);
 
     createPokemonCard(pokemonById, setDetailModal);
-  });
+  }); */
 }
 
 async function updatePokemonsCards(offset, e) {
@@ -61,3 +66,37 @@ initialize();
 /*CHANGE THE ID REQUEST
 ONLY REQUEST POKEMON BY ID ON SEE DETAILS BUTTON CLICK
 */
+
+function createCardFake(pokemons) {
+  pokemons.forEach((pokemon) => {
+    let pokemonCardsContainer = document.querySelector("#pokemon-cards");
+
+    let newCard = document.createElement("div");
+    newCard.setAttribute("class", "card");
+
+    let newCardBody = document.createElement("div");
+    newCardBody.setAttribute("class", "card-body");
+
+    newCard.appendChild(newCardBody);
+
+    let newCardTitle = document.createElement("h5");
+    newCardTitle.setAttribute("class", "card-title");
+    newCardTitle.textContent = `${pokemon.name}`;
+
+    newCardBody.appendChild(newCardTitle);
+
+    let newCardButton = document.createElement("button");
+    newCardButton.setAttribute("data-bs-toggle", "modal");
+    newCardButton.setAttribute("data-bs-target", "#exampleModal");
+    newCardButton.setAttribute("class", "btn btn-primary  modal-test");
+    newCardButton.textContent = "See Details";
+    newCardBody.appendChild(newCardButton);
+
+    /* newCardButton.onclick = callBackDetail; */
+    newCardButton.onclick = () => {
+      callBackDetail(pokemon);
+    };
+
+    pokemonCardsContainer.appendChild(newCard);
+  });
+}
