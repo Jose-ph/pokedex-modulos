@@ -34,7 +34,7 @@ async function initialize(offset = 0) {
 
   console.log(pokemons);
 
-  createCardFake(pokemons);
+  createCardFake(pokemons, handlePokemonDetails);
 
   /* Is this a legal use of async ? */
   /*  pokemons.forEach(async (pokemon) => {
@@ -67,7 +67,7 @@ initialize();
 ONLY REQUEST POKEMON BY ID ON SEE DETAILS BUTTON CLICK
 */
 
-function createCardFake(pokemons) {
+function createCardFake(pokemons, callBackDetail) {
   pokemons.forEach((pokemon) => {
     let pokemonCardsContainer = document.querySelector("#pokemon-cards");
 
@@ -99,4 +99,10 @@ function createCardFake(pokemons) {
 
     pokemonCardsContainer.appendChild(newCard);
   });
+}
+
+async function handlePokemonDetails(pokemon, updateModal = setDetailModal) {
+  let pokemonData = await getPokemonByIdFromApi(pokemon.name);
+
+  updateModal(pokemonData);
 }
