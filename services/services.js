@@ -46,7 +46,7 @@ function getPokemonsFromLocalStorage(offset) {
 
 export async function getPokemonById(id) {
   try {
-    return getPokemonsFromLocalStorageById(id);
+    return getPokemonsFromLocalStorage(id);
   } catch (e) {
     let pokemonByIdFromApi = await getPokemonByIdFromApi(id);
     savePokemonsToLocalStorage(pokemonByIdFromApi, id);
@@ -55,7 +55,7 @@ export async function getPokemonById(id) {
   }
 }
 
-function getPokemonsFromLocalStorageById(id) {
+/* function getPokemonsFromLocalStorageById(id) {
   let key = id;
 
   let pokemon = JSON.parse(localStorage.getItem(key));
@@ -66,3 +66,4 @@ function getPokemonsFromLocalStorageById(id) {
 
   return pokemon;
 }
+ */

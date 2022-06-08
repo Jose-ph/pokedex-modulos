@@ -6,6 +6,7 @@ import {
   clearPreviousElements,
   setDetailModal,
   clearCards,
+  showLoader,
 } from "./ui/ui.js";
 
 async function initialize(offset = 0) {
@@ -24,14 +25,11 @@ async function initialize(offset = 0) {
   pages = Math.ceil(totalPokemons / pokemonsPerPage);
 
   createPagination(pages, updatePokemonsCards);
-  /*  createPagination(pages, initialize); */
 
   createPokemonsCards(pokemons, handlePokemonDetails);
 }
 
 async function updatePokemonsCards(offset) {
-  console.log("update");
-
   let pokemonsData = await getPokemons(offset);
   let pokemons = pokemonsData.results;
 
@@ -39,19 +37,16 @@ async function updatePokemonsCards(offset) {
   createPokemonsCards(pokemons, handlePokemonDetails);
 }
 
-initialize();
-
-async function handlePokemonDetails(pokemon, updateModal = setDetailModal) {
-  /*   let modalBody = document.querySelector(".modal-body");
-
-  modalBody.textContent = " CARGANDO";
-  
-  ESTO PONERLO COMO UNA FUNCIÓN PARA MOSTRAR UN CARTEL DE CARGANDO
-
-  FALTA AGREGAR LOCALSTORAGE
-  */
+async function handlePokemonDetails(
+  pokemon,
+  updateModal = setDetailModal,
+  loader = showLoader
+) {
+  loader();
 
   let pokemonData = await getPokemonById(pokemon.name);
 
   updateModal(pokemonData);
 }
+
+initialize();
