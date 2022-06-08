@@ -1,18 +1,12 @@
-import {
-  getPokemons,
-  getPokemonById,
-  getPokemonByIdFromApi,
-} from "./services/services.js";
+import { getPokemons, getPokemonById } from "./services/services.js";
 
 import {
-  createPokemonCard,
+  createPokemonsCards,
   createPagination,
   clearPreviousElements,
   setDetailModal,
   clearCards,
 } from "./ui/ui.js";
-
-/* const BASE_URL = "https://pokeapi.co/api/v2/pokemon/"; */
 
 async function initialize(offset = 0) {
   let pages;
@@ -29,80 +23,35 @@ async function initialize(offset = 0) {
 
   pages = Math.ceil(totalPokemons / pokemonsPerPage);
 
-  /* createPagination(pages, updatePokemonsCards); */
-  createPagination(pages, initialize);
+  createPagination(pages, updatePokemonsCards);
+  /*  createPagination(pages, initialize); */
 
-  console.log(pokemons);
-
-  createCardFake(pokemons, handlePokemonDetails);
-
-  /* Is this a legal use of async ? */
-  /*  pokemons.forEach(async (pokemon) => {
-    let pokemonById = await getPokemonByIdFromApi(pokemon.name);
-
-    createPokemonCard(pokemonById, setDetailModal);
-  }); */
+  createPokemonsCards(pokemons, handlePokemonDetails);
 }
 
-async function updatePokemonsCards(offset, e) {
+async function updatePokemonsCards(offset) {
   console.log("update");
-  e.preventDefault();
 
   let pokemonsData = await getPokemons(offset);
   let pokemons = pokemonsData.results;
 
   clearCards();
-
-  /* Is this a legal use of async ? */
-  pokemons.forEach(async (pokemon) => {
-    /*  let pokemonById = await getPokemonById(pokemon.name); */
-    let pokemonById = await getPokemonByIdFromApi(pokemon.name);
-    createPokemonCard(pokemonById, setDetailModal);
-  });
+  createPokemonsCards(pokemons, handlePokemonDetails);
 }
 
 initialize();
 
-/*CHANGE THE ID REQUEST
-ONLY REQUEST POKEMON BY ID ON SEE DETAILS BUTTON CLICK
-*/
-
-function createCardFake(pokemons, callBackDetail) {
-  pokemons.forEach((pokemon) => {
-    let pokemonCardsContainer = document.querySelector("#pokemon-cards");
-
-    let newCard = document.createElement("div");
-    newCard.setAttribute("class", "card");
-
-    let newCardBody = document.createElement("div");
-    newCardBody.setAttribute("class", "card-body");
-
-    newCard.appendChild(newCardBody);
-
-    let newCardTitle = document.createElement("h5");
-    newCardTitle.setAttribute("class", "card-title");
-    newCardTitle.textContent = `${pokemon.name}`;
-
-    newCardBody.appendChild(newCardTitle);
-
-    let newCardButton = document.createElement("button");
-    newCardButton.setAttribute("data-bs-toggle", "modal");
-    newCardButton.setAttribute("data-bs-target", "#exampleModal");
-    newCardButton.setAttribute("class", "btn btn-primary  modal-test");
-    newCardButton.textContent = "See Details";
-    newCardBody.appendChild(newCardButton);
-
-    /* newCardButton.onclick = callBackDetail; */
-    newCardButton.onclick = () => {
-      callBackDetail(pokemon);
-    };
-
-    pokemonCardsContainer.appendChild(newCard);
-  });
-}
-
 async function handlePokemonDetails(pokemon, updateModal = setDetailModal) {
-  let pokemonData = await getPokemonByIdFromApi(pokemon.name);
+  /*   let modalBody = document.querySelector(".modal-body");
+
+  modalBody.textContent = " CARGANDO";
+  
+  ESTO PONERLO COMO UNA FUNCIÓN PARA MOSTRAR UN CARTEL DE CARGANDO
+
+  FALTA AGREGAR LOCALSTORAGE
+  */
+
+  let pokemonData = await getPokemonById(pokemon.name);
 
   updateModal(pokemonData);
 }

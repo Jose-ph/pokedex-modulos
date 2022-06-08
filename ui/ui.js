@@ -135,7 +135,7 @@ export function setDetailModal(pokemonData) {
   });
 }
 
-export function createPokemonsCards(pokemons, callBackDetail) {
+/* export function createPokemonsCards(pokemons, callBackDetail) {
   pokemons.forEach((pokemon) => {
     let pokemonCardsContainer = document.querySelector("#pokemon-cards");
 
@@ -177,7 +177,48 @@ export function createPokemonsCards(pokemons, callBackDetail) {
     newCardButton.textContent = "See Details";
     newCardBody.appendChild(newCardButton);
 
-    /* newCardButton.onclick = callBackDetail; */
+  
+    newCardButton.onclick = () => {
+      callBackDetail(pokemon);
+    };
+
+    pokemonCardsContainer.appendChild(newCard);
+  });
+} */
+
+export function clearCards() {
+  let cards = document.querySelectorAll(".card");
+
+  cards.forEach((card) => {
+    card.remove();
+  });
+}
+/* 
+function createPokemonsCards(pokemons, callBackDetail) {
+  pokemons.forEach((pokemon) => {
+    let pokemonCardsContainer = document.querySelector("#pokemon-cards");
+
+    let newCard = document.createElement("div");
+    newCard.setAttribute("class", "card");
+
+    let newCardBody = document.createElement("div");
+    newCardBody.setAttribute("class", "card-body");
+
+    newCard.appendChild(newCardBody);
+
+    let newCardTitle = document.createElement("h5");
+    newCardTitle.setAttribute("class", "card-title");
+    newCardTitle.textContent = `${pokemon.name}`;
+
+    newCardBody.appendChild(newCardTitle);
+
+    let newCardButton = document.createElement("button");
+    newCardButton.setAttribute("data-bs-toggle", "modal");
+    newCardButton.setAttribute("data-bs-target", "#exampleModal");
+    newCardButton.setAttribute("class", "btn btn-primary  modal-test");
+    newCardButton.textContent = "See Details";
+    newCardBody.appendChild(newCardButton);
+
     newCardButton.onclick = () => {
       callBackDetail(pokemon);
     };
@@ -185,11 +226,36 @@ export function createPokemonsCards(pokemons, callBackDetail) {
     pokemonCardsContainer.appendChild(newCard);
   });
 }
+ */
+export function createPokemonsCards(pokemons, callBackDetail) {
+  pokemons.forEach((pokemon) => {
+    let pokemonCardsContainer = document.querySelector("#pokemon-cards");
 
-export function clearCards() {
-  let cards = document.querySelectorAll(".card");
+    let newCard = document.createElement("div");
+    newCard.setAttribute("class", "card");
 
-  cards.forEach((card) => {
-    card.remove();
+    let newCardBody = document.createElement("div");
+    newCardBody.setAttribute("class", "card-body");
+
+    newCard.appendChild(newCardBody);
+
+    let newCardTitle = document.createElement("h5");
+    newCardTitle.setAttribute("class", "card-title");
+    newCardTitle.textContent = `${pokemon.name}`;
+
+    newCardBody.appendChild(newCardTitle);
+
+    let newCardButton = document.createElement("button");
+    newCardButton.setAttribute("data-bs-toggle", "modal");
+    newCardButton.setAttribute("data-bs-target", "#exampleModal");
+    newCardButton.setAttribute("class", "btn btn-primary  modal-test");
+    newCardButton.textContent = "See Details";
+    newCardBody.appendChild(newCardButton);
+
+    newCardButton.onclick = () => {
+      callBackDetail(pokemon);
+    };
+
+    pokemonCardsContainer.appendChild(newCard);
   });
 }
