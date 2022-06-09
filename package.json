@@ -1,0 +1,23 @@
+{
+  "name": "pokedex-modulos",
+  "version": "1.0.0",
+  "description": "Pokedex usando modulos y testing con jest y cypress",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jose-ph/pokedex-modulos.git"
+  },
+  "author": "Jose Basualdo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jose-ph/pokedex-modulos/issues"
+  },
+  "homepage": "https://github.com/Jose-ph/pokedex-modulos#readme",
+  "devDependencies": {
+    "cypress": "^10.0.3"
+  }
+}

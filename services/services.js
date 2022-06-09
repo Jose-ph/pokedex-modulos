@@ -54,16 +54,3 @@ export async function getPokemonById(id) {
     return pokemonByIdFromApi;
   }
 }
-
-/* function getPokemonsFromLocalStorageById(id) {
-  let key = id;
-
-  let pokemon = JSON.parse(localStorage.getItem(key));
-
-  if (pokemon === null) {
-    throw new Error("No pokemon found");
-  }
-
-  return pokemon;
-}
- */
