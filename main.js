@@ -29,7 +29,10 @@ async function initialize(offset = 0) {
   createPokemonsCards(pokemons, handlePokemonDetails);
 }
 
-async function updatePokemonsCards(offset) {
+async function updatePokemonsCards(offset, e) {
+  console.log(e.target);
+  //stops anchor in pagination of changing URL #
+  e.preventDefault();
   let pokemonsData = await getPokemons(offset);
   let pokemons = pokemonsData.results;
 
