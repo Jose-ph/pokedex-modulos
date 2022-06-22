@@ -24,7 +24,7 @@ it("checks number of pokemon cards", () => {
   cy.get("#pokemon-cards").find(".card").should("have.length", cardsPerPage);
 });
 
-/* it("changes page", () => {
+it("changes page", () => {
   cy.get("#pagination")
     .find(".page-link")
     .then((pages) => {
@@ -40,15 +40,23 @@ it("checks number of pokemon cards", () => {
           defaultCards.push(card);
         });
         console.log(defaultCards);
-        
 
         $pages[1].click();
 
-        I expect to get the newCards
-        cy.get(".card");
+        // I expect to get the newCards
+        cy.wait(3000);
+        let newCards = [];
+        cy.get(".card").then((cards) => {
+          cards.each(function (i, card) {
+            newCards.push(card);
+          });
+          console.log("Nuevas", newCards);
+
+          cy.wrap(defaultCards).should("not.deep.equal", newCards);
+        });
       });
     });
-}); */
+});
 
 /* it("loads cards from fixture", () => {
   cy.intercept("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1126", {
