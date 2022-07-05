@@ -1,12 +1,31 @@
-export function createPagination(numberOfPages, callBackUpdate) {
+export function createPagination(
+  numberOfPages,
+  callBackUpdate,
+  callBackHandler,
+  callBackSelectedPage
+) {
   let paginationContainer = document.querySelector(".pagination");
   let offset = 0;
+
+  let previousButton = document.createElement("li");
+  previousButton.innerHTML = `  <li class="page-item handler-previous" id="previous" ><a class="page-link" href="#">Previous</a></li>`;
+
+  let nextButton = document.createElement("li");
+  nextButton.innerHTML = `<li class="page-item handler-next" id="next" ><a class="page-link" href="#">Next</a></li>`;
+  paginationContainer.appendChild(previousButton);
+
+  previousButton.onclick = function (e) {
+    callBackHandler(e, callBackUpdate);
+  };
+  nextButton.onclick = function (e) {
+    callBackHandler(e, callBackUpdate);
+  };
 
   for (let i = 0; i < numberOfPages; i++) {
     let newPage = document.createElement("li");
 
     newPage.setAttribute("data-offset", `${offset}`);
-    newPage.setAttribute("class", "page-item");
+    newPage.setAttribute("class", "page-item order");
 
     let newPageLink = document.createElement("a");
     newPageLink.setAttribute("class", "page-link");
@@ -22,8 +41,88 @@ export function createPagination(numberOfPages, callBackUpdate) {
       let offset = this.dataset.offset;
 
       callBackUpdate(offset, e);
+      callBackSelectedPage(e);
     };
   }
+  paginationContainer.appendChild(nextButton);
+  let pages = document.querySelectorAll(".order");
+  pages[0].classList.add("active");
+  /*   pages[6].classList.add("active"); */
+}
+
+export function handlePagination(e, callBackUpdate) {
+  //let selectedPage = offset;
+  console.log(e);
+  searchSelectedPage(e.target, callBackUpdate);
+  /* let previousButton = document.querySelector("#previous");
+  console.log(previousButton);
+  previousButton.onclick = function () {
+    alert("previous");
+  }; */
+}
+
+export function handleSelectedPage(e) {
+  let pages = document.querySelectorAll(".order");
+
+  let selectedPages = [];
+
+  let selectedPage = e.target.parentNode;
+
+  for (let i = 0; i < pages.length; i++) {
+    if (pages[i].classList.contains("active")) {
+      selectedPages.push(pages[i]);
+      pages[i].classList.remove("active");
+    }
+  }
+  selectedPage.classList.add("active");
+  console.log("pagina seleccionada", selectedPage);
+  console.log("paginas activas", selectedPages);
+}
+
+function searchSelectedPage(element, callBackUpdate) {
+  console.log("this is the button triggering the event", element);
+  let pages = document.querySelectorAll(".order");
+  let selectedPage = [];
+  let offset;
+
+  for (let i = 0; i < pages.length; i++) {
+    if (pages[i].classList.contains("active")) {
+      selectedPage.push(pages[i]);
+    }
+  }
+  offset = Number(selectedPage[0].dataset.offset);
+  //previousButtonScenario
+  if (element.textContent === "Previous") {
+    if (offset - 20 >= 0) {
+      callBackUpdate(offset - 20);
+      //change active page
+      const newSelectedPage = Array.from(pages).filter(
+        (page) => page.dataset.offset == offset - 20
+      );
+      console.log(newSelectedPage);
+      newSelectedPage[0].classList.add("active");
+      selectedPage[0].classList.remove("active");
+      //change active to new page and erase previous one
+    } else {
+      alert("no previous page");
+    }
+  }
+  //nextbuttonscenario
+  if (element.textContent === "Next") {
+    if (offset + 20 < Number(pages.length) * 20) {
+      callBackUpdate(offset + 20);
+      const newSelectedPage = Array.from(pages).filter(
+        (page) => page.dataset.offset == offset + 20
+      );
+      console.log(newSelectedPage);
+      newSelectedPage[0].classList.add("active");
+      selectedPage[0].classList.remove("active");
+    } else {
+      alert("no more pages!");
+    }
+  }
+
+  //with the offset of the page updateCards
 }
 
 export function clearPreviousElements() {

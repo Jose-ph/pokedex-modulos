@@ -7,6 +7,8 @@ import {
   setDetailModal,
   clearCards,
   showLoader,
+  handlePagination,
+  handleSelectedPage
 } from "./ui/ui.js";
 
 async function initialize(offset = 0) {
@@ -24,15 +26,15 @@ async function initialize(offset = 0) {
 
   pages = Math.ceil(totalPokemons / pokemonsPerPage);
 
-  createPagination(pages, updatePokemonsCards);
+  createPagination(pages, updatePokemonsCards, handlePagination,handleSelectedPage);
 
   createPokemonsCards(pokemons, handlePokemonDetails);
 }
 
 async function updatePokemonsCards(offset, e) {
-  console.log(e.target);
+  // console.log(e.target);
   //stops anchor in pagination of changing URL #
-  e.preventDefault();
+  // e.preventDefault();
   let pokemonsData = await getPokemons(offset);
   let pokemons = pokemonsData.results;
 
