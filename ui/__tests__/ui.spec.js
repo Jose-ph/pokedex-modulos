@@ -1,7 +1,15 @@
-/// <reference types="jest" />
+import { TextEncoder, TextDecoder } from "util";
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+const jsdom = require("jsdom");
+//const { TestEnvironment } = require("jest-environment-jsdom");
+//import { jsdom } from "jsdom";
+const { JSDOM } = jsdom;
 import { createPokemonsCards } from "../ui.js";
+
 describe("ui", () => {
-  document.body.innerHTML = `
+  /* document.body.innerHTML = `
     <header>
         <div class="container d-flex justify-content-center">
 
@@ -60,9 +68,7 @@ describe("ui", () => {
     </main>
 
 
-`;
-
-  let pokemons = [
+` */ let pokemons = [
     { name: "bulbasaur", url: "https://pokeapi.co/api/v2/pokemon/1/" },
     { name: "ivysaur", url: "https://pokeapi.co/api/v2/pokemon/2/" },
     { name: "venusaur", url: "https://pokeapi.co/api/v2/pokemon/3/" },
@@ -85,7 +91,24 @@ describe("ui", () => {
     { name: "raticate", url: "https://pokeapi.co/api/v2/pokemon/20/" },
   ];
   it("should create 20 cards", () => {
+    /*     const dom = new JSDOM(`
+  <main class="container" id="main">
+  
+    <div class="row d-flex justify-content-center " id="pokemon-cards">
+      
+    </div>
+  
+    
+  
+  
+  </main>
+  `); */
+
+    document.body.innerHTML =
+      ' <div class="row d-flex justify-content-center " id="pokemon-cards">';
     createPokemonsCards(pokemons, () => {});
+    /* let cards = dom.window.document.querySelectorAll(".card"); */
+
     let cards = document.querySelectorAll(".card");
 
     expect(cards.length).toBe(20);
