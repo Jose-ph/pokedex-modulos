@@ -1,74 +1,25 @@
+/// <reference types="Jest" />
+
+/* this import from util makes jest/node recognize document as in the browser */
 import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
 const jsdom = require("jsdom");
-//const { TestEnvironment } = require("jest-environment-jsdom");
-//import { jsdom } from "jsdom";
+
 const { JSDOM } = jsdom;
-import { createPokemonsCards } from "../ui.js";
+import {
+  createPokemonsCards,
+  clearPreviousElements,
+  setDetailModal,
+  clearCards,
+  showLoader,
+} from "../ui.js";
+
+import { pokemonData } from "../pokemonData.js";
 
 describe("ui", () => {
-  /* document.body.innerHTML = `
-    <header>
-        <div class="container d-flex justify-content-center">
-
-            <h1>Pokedex!</h1>
-       
-        </div>
-        
-
-    </header>
-   
-    <div class="container">
-        <nav id="pagination"  aria-label="Page navigation example">
-            <ul class="pagination  d-flex flex-wrap">
-            
-            </ul>
-          </nav>
-    
-
-    </div>
-
-    <main class="container" id="main">
-
-        <div class="row d-flex justify-content-center " id="pokemon-cards">
-          
-        </div>
-
-        <!-- Inicio del Modal -->
-
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-         <img class="pokemon-front"  src="" alt="">
-         <img  class="pokemon-back"  src="" alt="">
-          ...
-        </div>
-        <div class="modal-footer">
-         <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button> -->
-        </div>
-      </div>
-    </div>
-  </div>
-  
-
-        <!-- Fin del Modal -->
-
-
-
-    </main>
-
-
-` */ let pokemons = [
+  let pokemons = [
     { name: "bulbasaur", url: "https://pokeapi.co/api/v2/pokemon/1/" },
     { name: "ivysaur", url: "https://pokeapi.co/api/v2/pokemon/2/" },
     { name: "venusaur", url: "https://pokeapi.co/api/v2/pokemon/3/" },
@@ -91,19 +42,6 @@ describe("ui", () => {
     { name: "raticate", url: "https://pokeapi.co/api/v2/pokemon/20/" },
   ];
   it("should create 20 cards", () => {
-    /*     const dom = new JSDOM(`
-  <main class="container" id="main">
-  
-    <div class="row d-flex justify-content-center " id="pokemon-cards">
-      
-    </div>
-  
-    
-  
-  
-  </main>
-  `); */
-
     document.body.innerHTML =
       ' <div class="row d-flex justify-content-center " id="pokemon-cards">';
     createPokemonsCards(pokemons, () => {});
@@ -112,5 +50,222 @@ describe("ui", () => {
     let cards = document.querySelectorAll(".card");
 
     expect(cards.length).toBe(20);
+  });
+
+  it("should clear elements", () => {
+    document.body.innerHTML = ` <div class="container">
+    <nav id="pagination"  aria-label="Page navigation example">
+        <ul class="pagination  d-flex flex-wrap">
+        
+        </ul>
+      </nav>
+
+
+</div>
+
+<main class="container" id="main">
+
+    <div class="row d-flex justify-content-center " id="pokemon-cards">
+      
+    </div>
+
+    <!-- Inicio del Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+     <img class="pokemon-front"  src="" alt="">
+     <img  class="pokemon-back"  src="" alt="">
+      ...
+    </div>
+    <div class="modal-footer">
+     <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary">Save changes</button> -->
+    </div>
+  </div>
+</div>
+</div>
+
+
+    <!-- Fin del Modal -->
+
+
+
+</main>
+
+
+
+`;
+
+    clearPreviousElements();
+
+    let pagination = document.querySelector(".pagination");
+    let pokemonCards = document.querySelector("#pokemon-cards");
+
+    expect(pagination).toHaveProperty("innerHTML", "");
+    expect(pokemonCards).toHaveProperty("innerHTML", "");
+  });
+
+  it("Should set detail modal", () => {
+    document.body.innerHTML = ` <div class="container">
+    <nav id="pagination"  aria-label="Page navigation example">
+        <ul class="pagination  d-flex flex-wrap">
+        
+        </ul>
+      </nav>
+
+
+</div>
+
+<main class="container" id="main">
+
+    <div class="row d-flex justify-content-center " id="pokemon-cards">
+      
+    </div>
+
+    <!-- Inicio del Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+     <img class="pokemon-front"  src="" alt="">
+     <img  class="pokemon-back"  src="" alt="">
+      ...
+    </div>
+    <div class="modal-footer">
+     <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary">Save changes</button> -->
+    </div>
+  </div>
+</div>
+</div>
+
+
+    <!-- Fin del Modal -->
+
+
+
+</main>
+
+
+
+`;
+
+    setDetailModal(pokemonData);
+
+    let modal = document.querySelector("#exampleModal");
+    let modalTitle = document.querySelector(".modal-title");
+
+    expect(modalTitle).toHaveProperty("textContent", "bulbasaur");
+  });
+
+  it("should clear cards", () => {
+    document.body.innerHTML =
+      document.body.innerHTML = ` <div class="container">
+    <nav id="pagination"  aria-label="Page navigation example">
+        <ul class="pagination  d-flex flex-wrap">
+        
+        </ul>
+      </nav>
+
+
+</div>
+
+<main class="container" id="main">
+
+    <div class="row d-flex justify-content-center " id="pokemon-cards">
+      
+    </div>
+
+    <!-- Inicio del Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+     <img class="pokemon-front"  src="" alt="">
+     <img  class="pokemon-back"  src="" alt="">
+      ...
+    </div>
+    <div class="modal-footer">
+     <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary">Save changes</button> -->
+    </div>
+  </div>
+</div>
+</div>
+
+
+    <!-- Fin del Modal -->
+
+
+
+</main>
+
+
+
+`;
+
+    createPokemonsCards(pokemons);
+    clearCards();
+
+    let cards = document.querySelectorAll(".card");
+
+    expect(cards).toHaveLength(0);
+  });
+
+  it("should show loader", () => {
+    document.body.innerHTML = ` <!-- Modal -->
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+           <img class="pokemon-front"  src="" alt="">
+           <img  class="pokemon-back"  src="" alt="">
+            ...
+          </div>
+          <div class="modal-footer">
+           <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  
+          <!-- Fin del Modal -->`;
+    let modalBody = document.querySelector(".modal-body");
+
+    showLoader();
+
+    expect(modalBody).toHaveProperty(
+      "innerHTML",
+      ` <div class="lds-ripple"><div></div><div></div></div>
+      <p>CARGANDO</p>`
+    );
   });
 });

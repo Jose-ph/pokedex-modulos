@@ -5,6 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "jest",
+    "test:watch" : "jest --watch",
+    "test:coverage":"jest --collect-coverage",
     "cypress:open": "cypress open"
   },
   "repository": {
