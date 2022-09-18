@@ -5,9 +5,10 @@
   "main": "main.js",
   "scripts": {
     "test": "jest",
-    "test:watch" : "jest --watch",
-    "test:coverage":"jest --collect-coverage",
-    "cypress:open": "cypress open"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --collect-coverage",
+    "cypress:open": "cypress open",
+    "server":"http-server -c -1"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "jest-environment-jsdom": "^28.1.2"
   },
   "dependencies": {
+    "http-server": "^14.1.1",
     "jsdom": "^20.0.0"
   }
 }
