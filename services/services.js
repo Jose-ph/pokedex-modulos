@@ -5,6 +5,7 @@ async function getPokemonsFromApi(offset = 0) {
     `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`
   );
 
+  
   return pokemons.json();
 }
 
