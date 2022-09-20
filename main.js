@@ -14,21 +14,17 @@ import {
   handleSelectedPage,
 } from "./pagination/pagination.js";
 
+import{Pokemon} from "./entities/pokemon.js"
 
 async function initialize(offset = 0) {
   let pages;
   let totalPokemons;
   let pokemonsPerPage = 20;
-  
-
-  
+   
   clearPreviousElements();
 
   let pokemonsData = await getPokemons(offset);
   
-  console.log(pokemonsData)
-  
-
   totalPokemons = pokemonsData.count;
 
   let pokemons = pokemonsData.results;
@@ -63,7 +59,10 @@ async function handlePokemonDetails(
   let pokemonData = await getPokemonById(pokemon.name);
   console.log("details",pokemonData)
 
-  updateModal(pokemonData);
+  let pokemonInstance = new Pokemon(pokemonData.name,pokemonData.sprites,pokemonData.abilities,pokemonData['base_experience'],pokemonData.stats)
+
+  //updateModal(pokemonData);
+  updateModal(pokemonInstance)
 }
 
 initialize();
