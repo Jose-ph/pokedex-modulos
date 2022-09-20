@@ -5,6 +5,7 @@ async function getPokemonsFromApi(offset = 0) {
     `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=20`
   );
 
+  
   return pokemons.json();
 }
 
@@ -46,23 +47,11 @@ function getPokemonsFromLocalStorage(offset) {
 
 export async function getPokemonById(id) {
   try {
-    return getPokemonsFromLocalStorageById(id);
+    return getPokemonsFromLocalStorage(id);
   } catch (e) {
     let pokemonByIdFromApi = await getPokemonByIdFromApi(id);
     savePokemonsToLocalStorage(pokemonByIdFromApi, id);
 
     return pokemonByIdFromApi;
   }
-}
-
-function getPokemonsFromLocalStorageById(id) {
-  let key = id;
-
-  let pokemon = JSON.parse(localStorage.getItem(key));
-
-  if (pokemon === null) {
-    throw new Error("No pokemon found");
-  }
-
-  return pokemon;
 }

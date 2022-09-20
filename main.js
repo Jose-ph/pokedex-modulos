@@ -1,63 +1,71 @@
-import {
-  getPokemons,
-  getPokemonById,
-  getPokemonByIdFromApi,
-} from "./services/services.js";
+import { getPokemons, getPokemonById } from "./services/services.js";
 
 import {
-  createPokemonCard,
-  createPagination,
+  createPokemonsCards,
   clearPreviousElements,
   setDetailModal,
   clearCards,
+  showLoader,
 } from "./ui/ui.js";
 
-/* const BASE_URL = "https://pokeapi.co/api/v2/pokemon/"; */
+import {
+  createPagination,
+  handlePagination,
+  handleSelectedPage,
+} from "./pagination/pagination.js";
+
+import{Pokemon} from "./entities/pokemon.js"
 
 async function initialize(offset = 0) {
   let pages;
   let totalPokemons;
   let pokemonsPerPage = 20;
-
+   
   clearPreviousElements();
 
   let pokemonsData = await getPokemons(offset);
-
+  
   totalPokemons = pokemonsData.count;
 
   let pokemons = pokemonsData.results;
 
   pages = Math.ceil(totalPokemons / pokemonsPerPage);
 
-  createPagination(pages, updatePokemonsCards);
+  createPagination(
+    pages,
+    updatePokemonsCards,
+    handlePagination,
+    handleSelectedPage
+  );
 
-  /* Is this a legal use of async ? */
-  pokemons.forEach(async (pokemon) => {
-    let pokemonById = await getPokemonByIdFromApi(pokemon.name);
-
-    createPokemonCard(pokemonById, setDetailModal);
-  });
+  createPokemonsCards(pokemons, handlePokemonDetails);
 }
 
-async function updatePokemonsCards(offset, e) {
-  console.log("update");
-  e.preventDefault();
-
+async function updatePokemonsCards(offset) {
   let pokemonsData = await getPokemons(offset);
   let pokemons = pokemonsData.results;
 
   clearCards();
+  createPokemonsCards(pokemons, handlePokemonDetails);
+}
 
-  /* Is this a legal use of async ? */
-  pokemons.forEach(async (pokemon) => {
-    /*  let pokemonById = await getPokemonById(pokemon.name); */
-    let pokemonById = await getPokemonByIdFromApi(pokemon.name);
-    createPokemonCard(pokemonById, setDetailModal);
-  });
+async function handlePokemonDetails(
+  pokemon,
+  updateModal = setDetailModal,
+  loader = showLoader
+) {
+  loader();
+
+  let pokemonData = await getPokemonById(pokemon.name);
+  console.log("details",pokemonData)
+
+  let pokemonInstance = new Pokemon(pokemonData.name,pokemonData.sprites,pokemonData.abilities,pokemonData['base_experience'],pokemonData.stats)
+
+  //updateModal(pokemonData);
+  updateModal(pokemonInstance)
 }
 
 initialize();
 
-/*CHANGE THE ID REQUEST
-ONLY REQUEST POKEMON BY ID ON SEE DETAILS BUTTON CLICK
-*/
+
+

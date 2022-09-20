@@ -1,79 +1,3 @@
-export function createPokemonCard(pokemon, callBackDetail) {
-  let pokemonCardsContainer = document.querySelector("#pokemon-cards");
-
-  let newCard = document.createElement("div");
-  newCard.setAttribute("class", "card");
-
-  let pokemonImage = document.createElement("img");
-  pokemonImage.setAttribute("class", "card-img-top");
-  pokemonImage.setAttribute("alt", `${pokemon.name}`);
-  pokemonImage.setAttribute("src", `${pokemon.sprites["front_default"]}`);
-  newCard.appendChild(pokemonImage);
-
-  let newCardBody = document.createElement("div");
-  newCardBody.setAttribute("class", "card-body");
-
-  newCard.appendChild(newCardBody);
-
-  let newCardTitle = document.createElement("h5");
-  newCardTitle.setAttribute("class", "card-title");
-  newCardTitle.textContent = `${pokemon.name}`;
-
-  newCardBody.appendChild(newCardTitle);
-
-  let newCardParagraph = document.createElement("p");
-  newCardParagraph.setAttribute("class", "card-text");
-
-  newCardParagraph.textContent = `#${pokemon.id}
-    height: ${pokemon.height}
-    weight: ${pokemon.weight}
-
-    `;
-
-  newCardBody.appendChild(newCardParagraph);
-
-  let newCardButton = document.createElement("button");
-  newCardButton.setAttribute("data-bs-toggle", "modal");
-  newCardButton.setAttribute("data-bs-target", "#exampleModal");
-  newCardButton.setAttribute("class", "btn btn-primary  modal-test");
-  newCardButton.textContent = "See Details";
-  newCardBody.appendChild(newCardButton);
-
-  newCardButton.onclick = () => {
-    callBackDetail(pokemon);
-  };
-
-  pokemonCardsContainer.appendChild(newCard);
-}
-
-export function createPagination(numberOfPages, callBackUpdate) {
-  let paginationContainer = document.querySelector(".pagination");
-  let offset = 0;
-
-  for (let i = 0; i < numberOfPages; i++) {
-    let newPage = document.createElement("li");
-
-    newPage.setAttribute("data-offset", `${offset}`);
-    newPage.setAttribute("class", "page-item");
-
-    let newPageLink = document.createElement("a");
-    newPageLink.setAttribute("class", "page-link");
-    newPageLink.setAttribute("href", "#");
-    newPageLink.textContent = `${i}`;
-
-    newPage.appendChild(newPageLink);
-    paginationContainer.appendChild(newPage);
-
-    offset = offset + 20;
-
-    newPage.onclick = function (e) {
-      let offset = this.dataset.offset;
-
-      callBackUpdate(offset, e);
-    };
-  }
-}
-
 export function clearPreviousElements() {
   let pagination = document.querySelector(".pagination");
 
@@ -135,18 +59,20 @@ export function setDetailModal(pokemonData) {
   });
 }
 
+export function clearCards() {
+  let cards = document.querySelectorAll(".card");
+
+  cards.forEach((card) => {
+    card.remove();
+  });
+}
+
 export function createPokemonsCards(pokemons, callBackDetail) {
   pokemons.forEach((pokemon) => {
     let pokemonCardsContainer = document.querySelector("#pokemon-cards");
 
     let newCard = document.createElement("div");
     newCard.setAttribute("class", "card");
-
-    let pokemonImage = document.createElement("img");
-    pokemonImage.setAttribute("class", "card-img-top");
-    pokemonImage.setAttribute("alt", `${pokemon.name}`);
-    pokemonImage.setAttribute("src", `${pokemon.sprites["front_default"]}`);
-    newCard.appendChild(pokemonImage);
 
     let newCardBody = document.createElement("div");
     newCardBody.setAttribute("class", "card-body");
@@ -159,17 +85,6 @@ export function createPokemonsCards(pokemons, callBackDetail) {
 
     newCardBody.appendChild(newCardTitle);
 
-    let newCardParagraph = document.createElement("p");
-    newCardParagraph.setAttribute("class", "card-text");
-
-    newCardParagraph.textContent = `#${pokemon.id}
-      height: ${pokemon.height}
-      weight: ${pokemon.weight}
-  
-      `;
-
-    newCardBody.appendChild(newCardParagraph);
-
     let newCardButton = document.createElement("button");
     newCardButton.setAttribute("data-bs-toggle", "modal");
     newCardButton.setAttribute("data-bs-target", "#exampleModal");
@@ -177,7 +92,6 @@ export function createPokemonsCards(pokemons, callBackDetail) {
     newCardButton.textContent = "See Details";
     newCardBody.appendChild(newCardButton);
 
-    /* newCardButton.onclick = callBackDetail; */
     newCardButton.onclick = () => {
       callBackDetail(pokemon);
     };
@@ -186,10 +100,11 @@ export function createPokemonsCards(pokemons, callBackDetail) {
   });
 }
 
-export function clearCards() {
-  let cards = document.querySelectorAll(".card");
+export function showLoader() {
+  let modalBody = document.querySelector(".modal-body");
 
-  cards.forEach((card) => {
-    card.remove();
-  });
+  modalBody.innerHTML = ` <div class="lds-ripple"><div></div><div></div></div>
+  <p>CARGANDO</p>
+  
+  `;
 }
